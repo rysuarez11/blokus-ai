@@ -1,0 +1,318 @@
+/* Global reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body styling */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  background-color: #f4f4f9;
+}
+
+/* Info section styling */
+.info {
+  text-align: center;
+  margin: 20px 0;
+}
+
+/* Game container styling */
+.game-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: -35px; /* Reduce the gap between board and pieces */
+  transform: scale(1); /* Scale down the game board */
+  transform-origin: top center;
+}
+
+/* Board styling */
+.board {
+  display: grid;
+  grid-template-columns: repeat(20, 32px); /* Ensure 20x20 grid with 32px per cell */
+  grid-template-rows: repeat(20, 32px);
+  gap: 2px;
+  background-color: #ddd;
+  padding: 10px;
+  border: 2px solid #ccc;
+}
+
+/* Board grid cell styling */
+.board .cell {
+  width: 32px;
+  height: 32px;
+  border: 1px solid #ccc; /* Keeps board grid visible */
+  background-color: white; /* Ensures board cells remain white */
+}
+
+/* Player colors */
+.board .cell.player-1 { background-color: red; }
+.board .cell.player-2 { background-color: blue; }
+.board .cell.player-3 { background-color: green; }
+.board .cell.player-4 { background-color: yellow; }
+
+/* Piece container styling */
+.piece-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 10px;
+  gap: 10px;
+  background-color: transparent;
+  border-top: 2px solid #ccc;
+  margin-top: 45px; /* Reduce gap with board */
+  transform: scale(1); /* Scale down the pieces */
+  transform-origin: top center;
+  position: relative;
+}
+
+/* Piece styling */
+.piece {
+  display: inline-block;;
+  flex-direction: column;
+  margin: 5px;
+  padding: 5px;
+  background-color: transparent;
+  position: relative;
+  cursor: grab;
+  user-select: none;
+}
+
+/* Piece rows */
+.row {
+  display: flex;
+}
+
+/* Individual cells inside pieces */
+.piece .cell {
+  width: 32px;
+  height: 32px;
+  border: none; /* Remove borders for pieces */
+  background-color: transparent; /* Ensures pieces are transparent */
+}
+
+/* Ensuring filled piece cells still show images */
+.piece .cell.filled {
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+/* ✅ Styling for piece placement preview */
+.preview {
+  background-color: rgba(0, 255, 0, 0.5); /* Light green highlight */
+  border: 1px solid green;
+}
+
+.piece:active {
+    cursor: grabbing;
+}
+
+/* Gray overlay for the popup */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent gray */
+  z-index: 999; /* Ensure it appears above other elements */
+  display: none; /* Hidden by default */
+}
+
+/* Show the overlay when active */
+.overlay.active {
+  display: block;
+}
+
+/* Popup styling */
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #f9f9f9; /* Light background */
+  padding: 40px; /* Increased padding */
+  border: 2px solid #ccc;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+  z-index: 1000;
+  width: 650px; /* Wider popup */
+  height: auto; /* Adjust height dynamically */
+  border-radius: 15px; /* Rounded corners */
+  text-align: center;
+}
+
+.popup h2 {
+  font-size: 2em;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.popup label {
+  font-size: 1.4em;
+  font-weight: bold;
+  margin-bottom: 10px;
+  display: block;
+  color: #555;
+}
+
+.popup select {
+  font-size: 1.2em;
+  padding: 10px;
+  margin-bottom: 20px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+}
+
+.popup button {
+  font-size: 1.4em;
+  padding: 15px 30px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.popup button:hover {
+  background-color: #0056b3;
+}
+
+/* Hidden class for popups */
+.hidden {
+  display: none !important;
+}
+
+/* Loading screen styling */
+.loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Final rankings styling */
+.final-rankings {
+  margin-left: 20px;
+  padding: 20px;
+  background-color: #f9f9f9; /* Light background */
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  width: 300px; /* Wider for better readability */
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.final-rankings h2 {
+  margin-bottom: 15px;
+  font-size: 1.8em;
+  color: #333;
+  text-align: center;
+}
+
+.final-rankings ul {
+  list-style: none;
+  padding: 0;
+  width: 100%;
+}
+
+.final-rankings li {
+  margin: 10px 0;
+  font-size: 1.4em;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.player-label {
+  font-weight: bold;
+  font-size: 1.5em;
+  color: #333;
+}
+
+.player-score {
+  font-size: 1.3em;
+  color: #555;
+}
+
+/* Restart button styling */
+.restart-button {
+  font-size: 1.2em;
+  padding: 10px 20px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 10px; /* Add spacing between buttons */
+  transition: background-color 0.3s ease;
+}
+
+.restart-button:hover {
+  background-color: #218838;
+}
+
+#restart-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+/* End Turn button styling */
+#end-turn-button {
+  font-size: 1.2em;
+  padding: 10px 20px;
+  background-color: #007bff; /* Blue background */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 10px; /* Add spacing between buttons */
+  transition: background-color 0.3s ease;
+}
+
+#end-turn-button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}
+
+#new-game-button {
+  font-size: 1.2em;
+  padding: 10px 20px;
+  background-color: #28a745; /* Green background */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px; /* Add spacing above the button */
+  transition: background-color 0.3s ease;
+}
+
+#new-game-button:hover {
+  background-color: #218838; /* Darker green on hover */
+}
+
+.hidden {
+  display: none !important;
+}
